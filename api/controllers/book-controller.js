@@ -13,7 +13,7 @@ const getAllBookDetails = (req, res) => {
     var sortBy, sortOrder;
     sortBy = validation.validateSortColumn(req.params.column, validSortColumns);
     if (sortBy === 'ERROR') {
-        res.status(489).json(
+        return res.status(489).json(
             {
                 errorCode: 489,
                 message: `Invalid sort column - ${req.params.column}`
@@ -22,7 +22,7 @@ const getAllBookDetails = (req, res) => {
     }
     sortOrder = validation.validateSortOrder(req.params.order);
     if (sortOrder === 'ERROR') {
-        res.status(489).json(
+        return res.status(489).json(
             {
                 errorCode: 489,
                 message: `Invalid sort order - ${req.params.order}`
@@ -32,9 +32,9 @@ const getAllBookDetails = (req, res) => {
     dbClient.query(`SELECT * from ${process.env.SCHEMA}.books ORDER BY ${sortBy} ${sortOrder}`, 
     (error, response) => {
         if (error) {
-            res.status(489).json(error);
+            return res.status(489).json(error);
         }
-        res.status(200).json(response.data);
+        return res.status(200).json(response.data);
     });
 }
 
@@ -43,9 +43,9 @@ const getBookDetailsById = (req, res) => {
     dbClient.query(`SELECT * from ${process.env.SCHEMA}.books WHERE book_id = '${req.params.bookId}'`, 
     (error, response) => {
         if (error) {
-            res.status(489).json(error);
+            return res.status(489).json(error);
         }
-        res.status(200).json(response.data);
+        return res.status(200).json(response.data);
     });
 }
 
@@ -59,7 +59,7 @@ const getBookByTitle = (req, res) => {
     }
     sortBy = validation.validateSortColumn(req.params.column, validSortColumns);
     if (sortBy === 'ERROR') {
-        res.status(489).json(
+        return res.status(489).json(
             {
                 errorCode: 489,
                 message: `Invalid sort column - ${req.params.column}`
@@ -68,7 +68,7 @@ const getBookByTitle = (req, res) => {
     }
     sortOrder = validation.validateSortOrder(req.params.order);
     if (sortOrder === 'ERROR') {
-        res.status(489).json(
+        return res.status(489).json(
             {
                 errorCode: 489,
                 message: `Invalid sort order - ${req.params.order}`
@@ -78,9 +78,9 @@ const getBookByTitle = (req, res) => {
     dbClient.query(`SELECT * from ${process.env.SCHEMA}.books WHERE title like '%${title}%' ORDER BY ${sortBy} ${sortOrder}`,
     (error, response) => {
         if (error) {
-            res.status(489).json(error);
+            return res.status(489).json(error);
         }
-        res.status(200).json(response.data);
+        return res.status(200).json(response.data);
     });
 }
 
