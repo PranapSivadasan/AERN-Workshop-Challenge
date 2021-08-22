@@ -1,0 +1,17 @@
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap");
+
+@import './variables.css';
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-neutral-20);
+  color: var(--color-neutral-90);
+  font-size: 16px;
+  font-family: 'Oswald', sans-serif;
+  /* font-weight: var(--fw-regular); */
+}
+
+.active {
+  color: rgba(0,0,0,1.5);
+}

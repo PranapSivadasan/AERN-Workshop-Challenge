@@ -1,0 +1,29 @@
+@import './variables.css';
+
+.header {
+    /* margin: 0.5rem; */
+    padding: 1rem;
+    font-size: 2rem;
+    font-weight: var(--fw-semibold);
+    position: sticky;
+    top: 0;
+    border: solid 1px;
+}
+
+.header .heading {
+    vertical-align: top;
+    padding-left: 0.7rem;
+}
+
+.footer {
+    /* margin: 0.5rem; */
+    padding: 1rem;
+    font-size: 0.75rem;
+    font-weight: var(--fw-light);
+    position: fixed;
+    bottom: 0;
+    /* border: solid 1px; */
+    background-color: var(--color-neutral-20);
+    width: -webkit-fill-available;
+    width: -moz-available;
+}
