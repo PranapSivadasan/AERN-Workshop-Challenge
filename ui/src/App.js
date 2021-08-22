@@ -1,9 +1,9 @@
+import AppComponent from "./components/app-component";
+import './css/App.css'
 
 function App() {
   return (
-    <div>
-      Night Owl
-    </div>
+    <AppComponent></AppComponent>
   );
 }
 
