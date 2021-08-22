@@ -1,2 +1,15 @@
+## Bundles
 node_modules/
+
+## Config files
 .env
+
+## Build files
+build/
+dist/
+
+## CI/CD files
+.netlify/
+
+## IDE Files
+.vscode/
