@@ -1,3 +1,4 @@
+const { response } = require('express');
 const dbClient = require('../configuration/db-config');
 const validation = require('../services/validation-service');
 
@@ -8,35 +9,42 @@ var validSortColumns = [
     }
 ];
 
-const getAllBookDetails = (req, res) => {
-    console.log('getAllBookDetails');
-    var sortBy, sortOrder;
-    sortBy = validation.validateSortColumn(req.params.column, validSortColumns);
-    if (sortBy === 'ERROR') {
-        return res.status(489).json(
-            {
-                errorCode: 489,
-                message: `Invalid sort column - ${req.params.column}`
-            }
-        )
+function processReqParams(param) {
+    if (validation.isUndefinedOrNull(param)) {
+        return '';
     }
-    sortOrder = validation.validateSortOrder(req.params.order);
-    if (sortOrder === 'ERROR') {
-        return res.status(489).json(
-            {
-                errorCode: 489,
-                message: `Invalid sort order - ${req.params.order}`
-            }
-        );
-    }
-    dbClient.query(`SELECT * from ${process.env.SCHEMA}.books ORDER BY ${sortBy} ${sortOrder}`, 
-    (error, response) => {
-        if (error) {
-            return res.status(489).json(error);
-        }
-        return res.status(200).json(response.data);
-    });
+    return (param).trim();
 }
+
+// const getAllBookDetails = (req, res) => {
+//     console.log('getAllBookDetails');
+//     var sortBy, sortOrder;
+//     sortBy = validation.validateSortColumn(req.params.column, validSortColumns);
+//     if (sortBy === 'ERROR') {
+//         return res.status(489).json(
+//             {
+//                 errorCode: 489,
+//                 message: `Invalid sort column - ${req.params.column}`
+//             }
+//         )
+//     }
+//     sortOrder = validation.validateSortOrder(req.params.order);
+//     if (sortOrder === 'ERROR') {
+//         return res.status(489).json(
+//             {
+//                 errorCode: 489,
+//                 message: `Invalid sort order - ${req.params.order}`
+//             }
+//         );
+//     }
+//     dbClient.query(`SELECT * from ${process.env.SCHEMA}.books ORDER BY ${sortBy} ${sortOrder}`, 
+//     (error, response) => {
+//         if (error) {
+//             return res.status(489).json(error);
+//         }
+//         return res.status(200).json(response.data);
+//     });
+// }
 
 const getBookDetailsById = (req, res) => {
     console.log('getBookDetailsById');
@@ -49,14 +57,12 @@ const getBookDetailsById = (req, res) => {
     });
 }
 
-const getBookByTitle = (req, res) => {
-    console.log('searchBookByTitle');
-    var title, sortBy, sortOrder;
-    if (validation.isUndefinedOrNull(req.params.title)) {
-        title = '';
-    } else {
-        title = (req.params.title).trim();
-    }
+const getAllBookDetailsWithFilters = (req, res) => {
+    console.log('getAllBookDetailsWithFilters');
+    var title, sortBy, sortOrder, catId, author;
+    title = processReqParams(req.params.title);
+    catId = processReqParams(req.params.catId);
+    author = processReqParams(req.params.author);
     sortBy = validation.validateSortColumn(req.params.column, validSortColumns);
     if (sortBy === 'ERROR') {
         return res.status(489).json(
@@ -75,7 +81,7 @@ const getBookByTitle = (req, res) => {
             }
         );
     }
-    dbClient.query(`SELECT * from ${process.env.SCHEMA}.books WHERE title like '%${title}%' ORDER BY ${sortBy} ${sortOrder}`,
+    dbClient.query(`SELECT * from ${process.env.SCHEMA}.books WHERE title like '%${title}%' AND category_id like '%${catId}%' AND author like '%${author}%' ORDER BY ${sortBy} ${sortOrder}`,
     (error, response) => {
         if (error) {
             return res.status(489).json(error);
@@ -84,8 +90,32 @@ const getBookByTitle = (req, res) => {
     });
 }
 
+const getAuthors = (req, res) => {
+    console.log('getAuthors');
+    dbClient.query(`SELECT DISTINCT author from ${process.env.SCHEMA}.books`,
+    (error, response) => {
+        var authorList = [];
+        if (error) {
+            return res.status(489).json(error);
+        }
+        for (i = 0; i < response.data.length; i++) {
+            // console.log((response.data[i].author).split(','));
+            var authors = (response.data[i].author).split(',');
+            for (j = 0; j < authors.length; j++) {
+                if (!authorList.includes(authors[j])) {
+                    authorList.push(authors[j].trim());
+                }
+            }
+        }
+        // console.log(authorList);
+        return res.status(200).json({'authors':authorList});
+    })
+
+}
+
 module.exports = {
-    getAllBookDetails,
+    // getAllBookDetails,
     getBookDetailsById,
-    getBookByTitle
+    getAllBookDetailsWithFilters,
+    getAuthors
 }
