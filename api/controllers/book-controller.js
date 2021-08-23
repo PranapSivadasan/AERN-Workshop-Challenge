@@ -1,6 +1,6 @@
-const { response } = require('express');
 const dbClient = require('../configuration/db-config');
 const validation = require('../services/validation-service');
+const common = require('../services/common-service');
 
 var validSortColumns = [
     {
@@ -8,13 +8,6 @@ var validSortColumns = [
         value: '__createdtime__'
     }
 ];
-
-function processReqParams(param) {
-    if (validation.isUndefinedOrNull(param)) {
-        return '';
-    }
-    return (param).trim();
-}
 
 // const getAllBookDetails = (req, res) => {
 //     console.log('getAllBookDetails');
@@ -60,9 +53,9 @@ const getBookDetailsById = (req, res) => {
 const getAllBookDetailsWithFilters = (req, res) => {
     console.log('getAllBookDetailsWithFilters');
     var title, sortBy, sortOrder, catId, author;
-    title = processReqParams(req.params.title);
-    catId = processReqParams(req.params.catId);
-    author = processReqParams(req.params.author);
+    title = common.processReqParams(req.params.title);
+    catId = common.processReqParams(req.params.catId);
+    author = common.processReqParams(req.params.author);
     sortBy = validation.validateSortColumn(req.params.column, validSortColumns);
     if (sortBy === 'ERROR') {
         return res.status(489).json(
