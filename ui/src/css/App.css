@@ -8,10 +8,52 @@ body {
   background-color: var(--color-neutral-20);
   color: var(--color-neutral-90);
   font-size: 16px;
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Oswald', sans-serif !important;
   /* font-weight: var(--fw-regular); */
 }
 
-.active {
-  color: rgba(0,0,0,1.5);
+.nav-link.active {
+  color: rgba(255,255,255,1) !important;
+  background-color: rgba(0,0,0,0.5);
+  border-radius: 1rem;
+  padding: 0.5rem !important;
+  width: fit-content;
+}
+
+.page-grid {
+  display: grid;
+  grid-template-rows: max-content 1fr;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}
+
+.container-fluid {
+  overflow-y: scroll;
+  position: relative;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  grid-gap: 1rem;
+  margin: 1rem auto;
+}
+
+.card-image {
+  height: 14rem;
+  width: fit-content !important;
+  align-self: center;
+}
+
+.card-body, .card-footer {
+  padding: 0.75rem !important;
+}
+
+.hidden {
+  display: none;
 }
