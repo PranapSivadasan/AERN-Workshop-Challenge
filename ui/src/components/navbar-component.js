@@ -6,17 +6,22 @@ import { useState } from 'react';
 const NavbarComponent = () => {
 
     const history = useHistory();
-
-    const [dashActive, dashClicked] = useState(true);
-    const [booksActive, booksClicked] = useState(false);
+    const [dashActive, dashClicked] = useState(checkDashActive());
+    const [booksActive, booksClicked] = useState(!checkDashActive());
 
     function navigate(route) {
         history.push(route);
+        dashClicked(checkDashActive());
+        booksClicked(!checkDashActive());
+    }
+
+    function checkDashActive() {
+        return !String(history.location.pathname).includes('/books');
     }
 
     return (
-        <div className='navigation-bar'>
-            <Navbar bg="light" expand="md" variant="light">
+        <div id="navigationBar" className='navigation-bar header'>
+            <Navbar bg="light" expand="sm" variant="light">
                 <Navbar.Brand>
                     <img
                         alt=""
@@ -31,11 +36,11 @@ const NavbarComponent = () => {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
                         <Nav.Link
-                            onClick={() => { navigate('/'); dashClicked(true); booksClicked(false); }}
+                            onClick={() => { navigate('/');}}
                             className={dashActive ? "active" : ""}>
                             Dashboard</Nav.Link>
                         <Nav.Link
-                            onClick={() => { navigate('/books'); dashClicked(false); booksClicked(true); }}
+                            onClick={() => { navigate('/books');}}
                             className={booksActive ? "active" : ""}>
                             Books
                         </Nav.Link>

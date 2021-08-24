@@ -2,28 +2,31 @@
 
 .header {
     /* margin: 0.5rem; */
-    padding: 1rem;
-    font-size: 2rem;
+    /* padding: 1rem; */
+    /* font-size: 2rem; */
     font-weight: var(--fw-semibold);
-    position: sticky;
+    position: sticky !important;
     top: 0;
-    border: solid 1px;
+    z-index: 5;
+    /* height: 50px !important; */
+    /* border: solid 1px; */
 }
 
-.header .heading {
+/* .header .heading {
     vertical-align: top;
     padding-left: 0.7rem;
-}
+} */
 
 .footer {
     /* margin: 0.5rem; */
-    padding: 1rem;
+    padding: 0.25rem 1rem;
     font-size: 0.75rem;
     font-weight: var(--fw-light);
-    position: fixed;
+    position: relative;
     bottom: 0;
     /* border: solid 1px; */
     background-color: var(--color-neutral-20);
     width: -webkit-fill-available;
     width: -moz-available;
+    height: 30px;
 }

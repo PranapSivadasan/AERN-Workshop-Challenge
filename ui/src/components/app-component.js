@@ -10,20 +10,22 @@ import NavbarComponent from './navbar-component';
 
 const AppComponent = () => {
     return (
-        <div>
+        <div className="page-grid">
             {/* <HeaderComponent></HeaderComponent> */}
             <NavbarComponent></NavbarComponent>
-            <Switch>
-                <Route exact path = '/'>
-                    <DashboardComponent></DashboardComponent>
-                </Route>
-                <Route exact path = '/books'>
-                    <BookListComponent></BookListComponent>
-                </Route>
-                <Route exact path = '/books/:bookId'>
-                    <BookDetailsComponent></BookDetailsComponent>
-                </Route>
-            </Switch>
+            <div className="container-fluid">
+                <Switch>
+                    <Route exact path='/'>
+                        <DashboardComponent></DashboardComponent>
+                    </Route>
+                    <Route exact path='/books'>
+                        <BookListComponent></BookListComponent>
+                    </Route>
+                    <Route exact path='/books/:bookId'>
+                        <BookDetailsComponent></BookDetailsComponent>
+                    </Route>
+                </Switch>
+            </div>
             <FooterComponent></FooterComponent>
         </div>
     );
