@@ -31,7 +31,7 @@ body {
 }
 
 .container-fluid {
-  overflow-y: scroll;
+  overflow-y: hidden;
   position: relative;
 }
 
@@ -46,8 +46,30 @@ body {
 
 .card-image {
   height: 14rem;
-  width: fit-content !important;
+  width: auto !important;
   align-self: center;
+}
+
+.card {
+  cursor: pointer !important;
+  transition: all 0.75s ease-in-out !important;
+}
+
+.card:hover {
+  transform: rotateY(180deg) scale(1.05) !important;
+}
+
+.card:hover .card-image, .card:hover .card-footer, .card:hover .card-body.content1 {
+  display: none;
+}
+
+.card:hover .card-body.card-desc {
+  display: block;
+}
+
+.card-desc {
+  font-size: 0.75rem;
+  transform: rotateY(180deg);
 }
 
 .card-body, .card-footer {
@@ -56,4 +78,60 @@ body {
 
 .hidden {
   display: none;
+}
+
+.stick-top {
+  position: sticky;
+  top: 0;
+}
+
+.book-details {
+  /* background-color: var(--color-neutral-20); */
+  margin: 1rem 0;
+  padding: 0.25rem 0.75rem;
+}
+
+.vertical-left-border {
+  border-left: 1px solid;
+  height: 100%;
+  position: absolute;
+  z-index: 1;
+}
+
+@media screen and (max-width: 768px) {
+  #verticalDivider {
+    display: none !important;
+  }
+}
+
+/* .deatils-column {
+  border: 1px solid;
+  margin: 1rem;
+} */
+
+/* ScrollTopDemo.css */
+
+.custom-scrolltop {
+  width: 2rem !important;
+  height: 2rem !important;
+  border-radius: 4px;
+  background-color: var(--primary-color) !important;
+}
+.custom-scrolltop:hover {
+  background-color: var(--primary-color) !important;
+}
+
+.custom-scrolltop .p-scrolltop-icon {
+  font-size: 1rem !important;
+  color: var(--primary-color-text);
+}
+
+.p-component {
+  font-family: 'Oswald' !important;
+}
+
+.p-fieldset-legend {
+  width: max-content;
+  font-size: 1.2rem;
+  margin-left: 1rem;
 }
