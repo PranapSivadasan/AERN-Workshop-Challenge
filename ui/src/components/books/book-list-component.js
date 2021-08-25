@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { Card, Button, Spinner } from 'react-bootstrap';
 
-import * as API_CONST from '../constants/api-constants';
+import * as API_CONST from '../../constants/api-constants';
 
-const BookListComponent = () => {
+const BookListComponent = ({openDetails}) => {
 
     const [bookListArray, updateBookListArray] = useState([]);
     const [loading, bookListLoading] = useState(true);
@@ -42,20 +42,27 @@ const BookListComponent = () => {
                         return (
                             <Card id={`card-${index + 1}`} 
                                 key={`card-${index + 1}`} 
-                                style={{ width: '15rem', height: '27rem' }}
-                                bg="light" text="dark">
+                                style={{ width: '15rem', height: '28rem'}}
+                                bg="light" text="dark"
+                                onClick={()=> {openDetails(value.book_id)}}>
                                 {/* <Card.Header>{value.title}</Card.Header> */}
                                 <Card.Img 
                                     variant="bottom" 
                                     src={value.cover} 
                                     className="card-image" />
-                                <Card.Body>
+                                <Card.Body className="content1">
                                     <Card.Title>{value.title}</Card.Title>
                                     <Card.Text>
                                         by {value.author}
                                     </Card.Text>
                                 </Card.Body>
-                                <Card.Footer className="text-muted">Ratings</Card.Footer>
+                                <Card.Body className="hidden card-desc">
+                                    <Card.Title>{value.title}</Card.Title>
+                                    <Card.Text>
+                                        {value.description}
+                                    </Card.Text>
+                                </Card.Body>
+                                <Card.Footer className="text-muted">Ratings: {value.ratings != null ? value.ratings : 'No ratings'} / 5</Card.Footer>
                             </Card>
                         )
                     })
