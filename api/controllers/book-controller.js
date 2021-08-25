@@ -6,6 +6,10 @@ var validSortColumns = [
     {
         key: 'createdtime',
         value: '__createdtime__'
+    },
+    {
+        key: 'ratings',
+        value: 'ratings'
     }
 ];
 
