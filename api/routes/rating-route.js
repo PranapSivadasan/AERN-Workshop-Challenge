@@ -4,4 +4,7 @@ const ratingController = require('../controllers/rating-controller');
 // Endpoint = '/api/ratings/[bookId]'
 ratingRouter.get('/:bookId?', ratingController.getRatings);
 
+// Endpoint = POST '/api/ratings'
+ratingRouter.post('/', ratingController.postRating);
+
 module.exports = ratingRouter;
