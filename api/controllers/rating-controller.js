@@ -6,10 +6,18 @@ const table = `${process.env.SCHEMA}.${tableName}`;
 
 const getRatings = (req, res) => {
     console.log('getRatings');
-    var bookId;
-    bookId = common.processReqParams(req.params.bookId);
-    dbClient.query(`SELECT ${tableName}.book_id, AVG(${tableName}.rating) as rating from ${table}
-    WHERE book_id like '%${bookId}%' GROUP BY ${tableName}.book_id`,
+    dbClient.query(`SELECT ${tableName}.book_id, AVG(${tableName}.rating) as rating from ${table} GROUP BY ${tableName}.book_id`,
+        (error, response) => {
+            if (error) {
+                return res.status(489).json(error);
+            }
+            return res.status(200).json(response.data);
+        });
+}
+
+const getRatingsById = (req, res) => {
+    console.log('getRatingsById');
+    dbClient.query(`SELECT * from ${table} WHERE book_id = '${req.params.bookId}'`,
         (error, response) => {
             if (error) {
                 return res.status(489).json(error);
@@ -61,5 +69,6 @@ const postRating = (req, res) => {
 
 module.exports = {
     getRatings,
-    postRating
+    postRating,
+    getRatingsById
 }
