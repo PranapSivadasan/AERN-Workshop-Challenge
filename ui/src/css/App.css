@@ -60,11 +60,11 @@ body {
 }
 
 .card:hover .card-image, .card:hover .card-footer, .card:hover .card-body.content1 {
-  display: none;
+  display: none !important;
 }
 
 .card:hover .card-body.card-desc {
-  display: block;
+  display: block !important;
 }
 
 .card-desc {
@@ -77,7 +77,7 @@ body {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 .stick-top {
