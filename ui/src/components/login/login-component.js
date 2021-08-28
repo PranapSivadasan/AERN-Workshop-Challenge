@@ -8,7 +8,7 @@ import { Password } from 'primereact/password';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { Toast } from 'primereact/toast';
 
-const LogInComponent = ({updateLogin}) => {
+const LogInComponent = ({ updateLogin }) => {
 
     const history = useHistory();
     const toast = useRef(null);
@@ -16,12 +16,6 @@ const LogInComponent = ({updateLogin}) => {
     const [user, updateUser] = useState('');
     const [password, updatePassword] = useState('');
     const [hideSubmit, updateHideSubmit] = useState(false);
-    const [loginState, updateLoginState] = useState(false);
-
-    
-    useEffect(() => {
-        updateLogin(loginState)
-    }, [loginState]);
 
 
     function logIn(event) {
@@ -46,15 +40,15 @@ const LogInComponent = ({updateLogin}) => {
                 console.log(data);
                 if (data?.code === 200) {
                     history.push('/dashboard');
+                    updateHideSubmit(false);
+                    updateLogin(true);
+                } else {
                     toast.current.show(
-                        {severity:'success', summary: 'Login Success', life: 5000}
+                        { severity: 'error', summary: 'Login Failed', detail: data?.message, life: 5000 }
                     );
-                    updateLoginState(true);
+                    updateHideSubmit(false);
                 }
-                toast.current.show(
-                    {severity:'error', summary: 'Login Failed', detail: data?.message, life: 5000}
-                );
-                updateHideSubmit(false);
+
             });
         });
     }

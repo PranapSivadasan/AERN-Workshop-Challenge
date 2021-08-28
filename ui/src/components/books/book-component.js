@@ -16,17 +16,18 @@ const BookComponent = () => {
 
         <Row>
             <Col xs={12} md={showDetails ? 4 : 12}>
-                <ScrollPanel style={{ width: '100%', height: '90vh' }} className="custombar1">
+                <ScrollPanel style={{ width: '100%', height: 'calc(100vh - 90px)' }} className="custombar1">
 
                     <BookListComponent
-                        openDetails={(val) => { updateBookDetailsFlag(true); updateSelectedBook(val) }}></BookListComponent>
+                        openDetails={(val) => { updateBookDetailsFlag(true); updateSelectedBook(val) }}
+                        showDetails={showDetails}></BookListComponent>
                     <ScrollTop target="parent" threshold={100} className="custom-scrolltop" icon="pi pi-arrow-up" />
 
                 </ScrollPanel>
 
             </Col>
             <Col xs={12} md={8} style={{ display: showDetails ? '' : 'none' }}>
-                <ScrollPanel style={{ width: '100%', height: '90vh' }} className="custombar1">
+                <ScrollPanel style={{ width: '100%', height: 'calc(100vh - 90px)' }} className="custombar1">
 
                     <BookDetailsComponent closeDetails={() => { updateBookDetailsFlag(false) }} bookId={selectedBook} ></BookDetailsComponent>
                     <ScrollTop target="parent" threshold={100} className="custom-scrolltop" icon="pi pi-arrow-up" />
