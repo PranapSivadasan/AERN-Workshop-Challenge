@@ -8,21 +8,23 @@ import { Chip } from 'primereact/chip';
 import { Dialog } from 'primereact/dialog';
 import { Dropdown } from 'primereact/dropdown';
 import { Message } from 'primereact/message';
+import { SelectButton } from 'primereact/selectbutton';
 
 import * as API_CONST from '../../constants/api-constants';
+import * as COMMON_CONST from '../../constants/common-constants';
 
 const BookListComponent = ({ openDetails, showDetails }) => {
 
-    let filterList = {
-        search: false,
-        category: false,
-        author: false
-    }
+    const filterList = COMMON_CONST.FILTER_LIST;
+    const sortOrderOptions = COMMON_CONST.SORT_ORDER;
+    const sortByOptions = COMMON_CONST.SORT_COLUMNS;
+
     const [bookListArray, updateBookListArray] = useState([]);
     const [loading, bookListLoading] = useState(true);
     const [searchVal, updateSearchVal] = useState('');
     const [searchFlag, updateSearchFlag] = useState(false);
     const [filterFlag, updateFilterFlag] = useState(false);
+    const [sortFlag, updateSortFlag] = useState(false);
     const [searchChipVal, updateSearchChipVal] = useState(false);
     const [catChipVal, updateCatChipVal] = useState(false);
     const [authChipVal, updateAuthChipVal] = useState(false);
@@ -31,9 +33,10 @@ const BookListComponent = ({ openDetails, showDetails }) => {
     // const [categoryList, updateCategory] = useState([]);
     const [category, setCategory] = useState(null);
     const [author, setAuthor] = useState(null);
-    // const [filterType, setFilterType] = useState(null);
-    // const [filterValue, setFilterValue] = useState(null);
+    const [sortBy, setSortBy] = useState(COMMON_CONST.SORT_COLUMNS[0]);
+    const [sortOrder, setSortOrder] = useState(COMMON_CONST.SORT_ORDER[1]);
     const [displayFilterModal, updateFilterModal] = useState(false);
+    const [displaySortModal, updateSortModal] = useState(false);
     const [categoryOptions, updateCategoryOptions] = useState([]);
     const [authorOptions, updateAuthorOptions] = useState([]);
 
@@ -45,8 +48,8 @@ const BookListComponent = ({ openDetails, showDetails }) => {
             query = query.replace('[bookTitle]', searchVal);
             query = query.replace('[categoryId]', category !== null && category !== undefined ? category?.key : '');
             query = query.replace('[authorName]', author !== null && author !== undefined ? author?.key : '');
-            query = query.replace('[columnName]', 'createdtime');
-            query = query.replace('[sortOrder]', 'desc');
+            query = query.replace('[columnName]', sortBy.key);
+            query = query.replace('[sortOrder]', sortOrder.key);
             // console.log(query);
             const bookListResponse = await (await fetch(query)).json();
             updateBookListArray(bookListResponse);
@@ -55,7 +58,7 @@ const BookListComponent = ({ openDetails, showDetails }) => {
 
         init();
 
-    }, [searchFlag, filterFlag]);
+    }, [searchFlag, filterFlag, sortFlag]);
 
     useEffect(() => {
         updateSearchDiv(showDetails);
@@ -149,6 +152,13 @@ const BookListComponent = ({ openDetails, showDetails }) => {
         updateFilterFlag(!filterFlag);
     }
 
+    function sortBook() {
+        console.log('sortBook');
+        updateSortModal(false)
+        console.log(sortBy, sortOrder);
+        updateSortFlag(!sortFlag);
+    }
+
     let renderCards;
     if (bookListArray.length > 0) {
         renderCards =
@@ -190,18 +200,17 @@ const BookListComponent = ({ openDetails, showDetails }) => {
     } else {
         renderCards =
             <div id="cardContainer" className={loading ? "hidden" : "card-container"}>
-                <Message severity="info" text="No Books Found !" className="w-75"/>
+                <Message severity="info" text="No Books Found !" className="w-75" />
             </div>
     }
 
-    const dialogFooter =
+    const filterDialogFooter =
         <div>
-            <Button label="Cancel" icon="pi pi-times" onClick={() => updateFilterModal(false)} className="p-button-text" />
-            <Button label="Apply" icon="pi pi-check"
-                onClick={() => filterBook()} />
+            <Button label="Cancel" icon="pi pi-times" onClick={() => updateFilterModal(false)} className="p-button-danger p-button-outlined" />
+            <Button label="Apply" icon="pi pi-check" onClick={() => filterBook()} />
         </div>
-    const renderDialog =
-        <Dialog header="Filters" visible={displayFilterModal} style={{ width: '50vw' }} footer={dialogFooter} onHide={() => updateFilterModal(false)}>
+    const renderFilterDialog =
+        <Dialog header="Filters" visible={displayFilterModal} style={{ width: '50vw' }} footer={filterDialogFooter} onHide={() => updateFilterModal(false)}>
             <div id="categoryFilter" className="filter-div">
                 <div> Category: </div>
                 <Dropdown value={category}
@@ -228,25 +237,64 @@ const BookListComponent = ({ openDetails, showDetails }) => {
             </div>
         </Dialog>;
 
+    const sortDialogFooter =
+        <div>
+            <Button label="Cancel" icon="pi pi-times" onClick={() => updateSortModal(false)} className="p-button-danger p-button-outlined" />
+            <Button label="Apply" icon="pi pi-check" onClick={() => sortBook()} />
+        </div>
+
+    const renderSortDialog =
+        <Dialog header="Sorting" visible={displaySortModal} style={{ width: '50vw' }} footer={sortDialogFooter} onHide={() => updateSortModal(false)}>
+            <div id="sortColumn" className="filter-div">
+                <div> Sort By: </div>
+                <Dropdown value={sortBy}
+                    options={sortByOptions}
+                    onChange={(type) => {
+                        setSortBy(type.value);
+                    }}
+                    className="filter-dropdown"
+                    optionLabel="label"
+                    placeholder="Select a option" />
+            </div>
+            <div id="authorFilter" className="filter-div">
+                <div> Sort Order: </div>
+                <SelectButton value={sortOrder}
+                    options={sortOrderOptions}
+                    onChange={(type) => {
+                        setSortOrder(type.value);
+                    }}
+                    itemTemplate={(option) => {
+                        return <i className={option.icon} title={option.label}></i>;
+                    }}
+                    className="filter-dropdown"
+                    unselectable={false} />
+            </div>
+        </Dialog>;
+
     return (
         <div id="bookListComponent">
             <div>
                 <div id="searchDiv" className={hideSearchDiv ? 'hidden' : 'p-1 filter-bar'}>
-                    <InputText value={searchVal}
-                        onKeyUp={(e) => {
-                            if (e.key === 'Enter') {
-                                searchBook();
-                            }
-                        }}
-                        onChange={(e) => updateSearchVal(e.target.value)}
-                        placeholder="Search by title"
-                        className="w-25" />
-                    <Button icon="pi pi-search"
+                    <div className="p-inputgroup w-25 d-inline">
+                        <InputText value={searchVal}
+                            onKeyUp={(e) => {
+                                if (e.key === 'Enter') {
+                                    searchBook();
+                                }
+                            }}
+                            onChange={(e) => updateSearchVal(e.target.value)}
+                            placeholder="Search by title"
+                            className="w-25" />
+                        <Button icon="pi pi-search" title="Search"
+                            className="p-button-primary"
+                            onClick={() => searchBook()} />
+                    </div>
+                    <Button icon="pi pi-filter" title="Filter"
                         className="p-button-rounded p-button-primary p-button-outlined ml-2"
-                        onClick={() => searchBook()} />
-                    <Button icon="pi pi-filter"
-                        className="p-button-rounded p-button-plain p-button-outlined ml-2"
                         onClick={() => updateFilterModal(true)} />
+                    <Button icon="pi pi-sort-alt" title="Sort"
+                        className="p-button-rounded p-button-primary p-button-outlined ml-2"
+                        onClick={() => { updateSortModal(true) }} />
                     <div id="appliedFiltersDiv" className={isFilterApplied() ? 'mt-2' : 'hidden'}>
                         Applied Filters :
                         <Chip className={applyFilter.search ? "custom-chip ml-2 px-3" : "hidden"} template={
@@ -281,7 +329,8 @@ const BookListComponent = ({ openDetails, showDetails }) => {
                     </Spinner>
                 </div>
                 {renderCards}
-                {renderDialog}
+                {renderFilterDialog}
+                {renderSortDialog}
             </div>
         </div>
     );
