@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import * as API_CONST from '../../constants/api-constants';
 
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Password } from 'primereact/password';
 import { ProgressSpinner } from 'primereact/progressspinner';
+import { Toast } from 'primereact/toast';
 
 const SignInComponent = () => {
+
+    const toast = useRef(null);
 
     const [userName, updateUserName] = useState({ value: '', modified: false });
     const [password, updatePassword] = useState({ value: '', modified: false });
@@ -33,6 +36,16 @@ const SignInComponent = () => {
         fetchPromise.then((res) => {
             res.json().then((data) => {
                 console.log(data);
+                if (data.code === 489) {
+                    toast.current.show(
+                    { severity: 'error', summary: 'Registration Failed', detail: data?.message, life: 5000 }
+                    );
+                }
+                if (data.code === 200) {
+                    toast.current.show(
+                        { severity: 'success', summary: 'Successfully Registered', detail: data?.message, life: 5000 }
+                        );
+                }
                 resetForm();
                 updateHideSubmit(false);
             });
@@ -63,6 +76,7 @@ const SignInComponent = () => {
 
     return (
         <div>
+            <Toast ref={toast} />
             <form onSubmit={signIn} className="ml-5">
                 <div id="userNameDiv" className="mb-2">
                     <label htmlFor="userNameInput" className="d-block">Username *</label>
@@ -87,7 +101,7 @@ const SignInComponent = () => {
                 </div>
                 <div id="submitDiv">
                     <ProgressSpinner strokeWidth="5" style={{ width: '50px', height: '50px' }} className={hideSubmit ? "w-75" : "hidden"} />
-                    <Button label="Sign in" className={hideSubmit ? "hidden" : "w-75"} type="submit" disabled={isFormInvalid()} />
+                    <Button label="Register" className={hideSubmit ? "hidden" : "w-75"} type="submit" disabled={isFormInvalid()} />
                 </div>
             </form>
         </div>

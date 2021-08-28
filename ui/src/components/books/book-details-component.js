@@ -17,23 +17,26 @@ const BookDetailsComponent = ({ closeDetails, bookId }) => {
     useEffect(() => {
 
         async function init() {
-            bookDetailsLoading(true);
-            let query = API_CONST.BOOK_DETAILS;
-            query = query.replace('[bookId]', bookId);
-            const bookDetailResponse = await (await fetch(query)).json();
-            updateBookDetail(bookDetailResponse[0]);
+            if (bookId !== null && bookId !== undefined) {
 
-            let catQuery = API_CONST.CATEGORY_BY_ID;
-            catQuery = catQuery.replace('[catId]', bookDetailResponse[0]?.category_id );
-            const catDetailsResponse = await (await fetch(catQuery)).json();
-            updateCatDetails(catDetailsResponse);
+                bookDetailsLoading(true);
+                let query = API_CONST.BOOK_DETAILS;
+                query = query.replace('[bookId]', bookId);
+                const bookDetailResponse = await (await fetch(query)).json();
+                updateBookDetail(bookDetailResponse[0]);
 
-            let ratQuery = API_CONST.RATINGS_BY_ID;
-            ratQuery = ratQuery.replace('[bookId]', bookId );
-            const ratDetailsResponse = await (await fetch(ratQuery)).json();
-            updateRatDetails(ratDetailsResponse);
+                let catQuery = API_CONST.CATEGORY_BY_ID;
+                catQuery = catQuery.replace('[catId]', bookDetailResponse[0]?.category_id);
+                const catDetailsResponse = await (await fetch(catQuery)).json();
+                updateCatDetails(catDetailsResponse);
 
-            bookDetailsLoading(false);
+                let ratQuery = API_CONST.RATINGS_BY_ID;
+                ratQuery = ratQuery.replace('[bookId]', bookId);
+                const ratDetailsResponse = await (await fetch(ratQuery)).json();
+                updateRatDetails(ratDetailsResponse);
+
+                bookDetailsLoading(false);
+            }
             // console.log(bookDetail);
         }
 
@@ -58,7 +61,6 @@ const BookDetailsComponent = ({ closeDetails, bookId }) => {
                     <Col className="deatils-column">
                         <div id="categoryDiv" className="mb-3">
                             <h6>Category : </h6>
-                            {console.log(catDetails)}
                             <Tag value={catDetails?.name} severity="success" />
                         </div>
                         <div id="ratingsDiv" className="mb-3">

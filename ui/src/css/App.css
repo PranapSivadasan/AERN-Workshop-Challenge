@@ -135,3 +135,26 @@ body {
   font-size: 1.2rem;
   margin-left: 1rem;
 }
+
+/* Filter styles */
+
+.filter-bar {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background-color: white;
+}
+
+.p-chip.custom-chip {
+  background: var(--color-neutral-50);
+  color: var(--color-neutral-20);
+}
+
+.filter-dropdown {
+  min-width: 50%;
+  margin: 5px 5px 0 0;
+}
+
+.filter-div {
+  margin: 0 1rem 1rem 1rem;
+}
