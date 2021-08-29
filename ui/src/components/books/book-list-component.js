@@ -13,7 +13,9 @@ import { SelectButton } from 'primereact/selectbutton';
 import * as API_CONST from '../../constants/api-constants';
 import * as COMMON_CONST from '../../constants/common-constants';
 
-const BookListComponent = ({ openDetails, showDetails }) => {
+import CreateBookDialog from './create-book-dialog';
+
+const BookListComponent = ({ openDetails, showDetails, refreshListPage }) => {
 
     const filterList = COMMON_CONST.FILTER_LIST;
     const sortOrderOptions = COMMON_CONST.SORT_ORDER;
@@ -39,6 +41,8 @@ const BookListComponent = ({ openDetails, showDetails }) => {
     const [displaySortModal, updateSortModal] = useState(false);
     const [categoryOptions, updateCategoryOptions] = useState([]);
     const [authorOptions, updateAuthorOptions] = useState([]);
+    const [createModal, updateCreateModal] = useState(false);
+    const [refreshPage, updateRefresh] = useState(false);
 
     useEffect(() => {
 
@@ -58,11 +62,15 @@ const BookListComponent = ({ openDetails, showDetails }) => {
 
         init();
 
-    }, [searchFlag, filterFlag, sortFlag]);
+    }, [searchFlag, filterFlag, sortFlag, refreshPage]);
 
     useEffect(() => {
         updateSearchDiv(showDetails);
     }, [showDetails]);
+
+    useEffect(() => {
+        updateRefresh(!refreshPage);
+    }, [refreshListPage]);
 
     useEffect(() => {
 
@@ -93,7 +101,7 @@ const BookListComponent = ({ openDetails, showDetails }) => {
             // updateCategory(categoryListResponse);
         }
         initCatAndAuth();
-    }, []);
+    }, [refreshPage]);
 
     function filterRemoved(filter) {
         switch (filter) {
@@ -295,6 +303,9 @@ const BookListComponent = ({ openDetails, showDetails }) => {
                     <Button icon="pi pi-sort-alt" title="Sort"
                         className="p-button-rounded p-button-primary p-button-outlined ml-2"
                         onClick={() => { updateSortModal(true) }} />
+                    <Button icon="pi pi-plus" title="Add new book"
+                        className="p-button-rounded p-button-success p-button-outlined ml-2"
+                        onClick={() => { updateCreateModal(true) }} />
                     <div id="appliedFiltersDiv" className={isFilterApplied() ? 'mt-2' : 'hidden'}>
                         Applied Filters :
                         <Chip className={applyFilter.search ? "custom-chip ml-2 px-3" : "hidden"} template={
@@ -331,6 +342,16 @@ const BookListComponent = ({ openDetails, showDetails }) => {
                 {renderCards}
                 {renderFilterDialog}
                 {renderSortDialog}
+                <CreateBookDialog
+                    openDialog={createModal}
+                    bookDetails={null}
+                    closeDialog={(val) => updateCreateModal(val)}
+                    refresh={(val) => {
+                        if (val) {
+                            updateRefresh(!refreshPage);
+                        }
+                    }}
+                />
             </div>
         </div>
     );

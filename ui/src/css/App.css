@@ -31,7 +31,7 @@ body {
 }
 
 .container-fluid {
-  overflow-y: hidden;
+  overflow-y: auto;
   position: relative;
 }
 
@@ -47,6 +47,7 @@ body {
 .card-image {
   height: 14rem;
   width: auto !important;
+  max-width: 90% !important;
   align-self: center;
 }
 
@@ -157,4 +158,12 @@ body {
 
 .filter-div {
   margin: 0 1rem 1rem 1rem;
+}
+
+.p-dropdown .p-dropdown-label.p-placeholder, .p-inputtext {
+  font-family: 'Oswald' !important;
+}
+
+.p-toast-top-right {
+  top: 70px !important
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Spinner, Row, Col } from 'react-bootstrap';
 import * as API_CONST from '../../constants/api-constants';
 import { Rating } from 'primereact/rating';
@@ -6,13 +6,25 @@ import { Button } from 'primereact/button';
 import { Tag } from 'primereact/tag';
 import { Divider } from 'primereact/divider';
 import { Fieldset } from 'primereact/fieldset';
+import { Dialog } from 'primereact/dialog';
+import { ProgressSpinner } from 'primereact/progressspinner';
+import { Toast } from 'primereact/toast';
 
-const BookDetailsComponent = ({ closeDetails, bookId }) => {
+import CreateBookDialog from './create-book-dialog';
+
+const BookDetailsComponent = ({ closeDetails, bookId, refreshList }) => {
+
+    const toast = useRef(null);
 
     const [bookDetail, updateBookDetail] = useState([]);
     const [loading, bookDetailsLoading] = useState(true);
     const [catDetails, updateCatDetails] = useState([]);
     const [ratDetails, updateRatDetails] = useState([]);
+    const [update, setUpdateModal] = useState(false);
+    const [bookToEdit, updateBookToEdit] = useState(null);
+    const [refreshPage, updateRefresh] = useState(false);
+    const [deleteModal, updateDeleteModal] = useState(false);
+    const [showSpinner, updateShowSpinner] = useState(false);
 
     useEffect(() => {
 
@@ -41,10 +53,72 @@ const BookDetailsComponent = ({ closeDetails, bookId }) => {
         }
 
         init();
-    }, [bookId]);
+    }, [bookId, refreshPage]);
+
+    function openEditBookModal() {
+        const selectedBook = {
+            book_id: bookDetail.book_id,
+            title: bookDetail.title,
+            website: bookDetail.website,
+            pages: bookDetail.pages,
+            description: bookDetail.description,
+            cover: bookDetail.cover,
+            cat_id: bookDetail.category_id,
+            author: bookDetail.author,
+            ratings: bookDetail.ratings
+        }
+        updateBookToEdit(selectedBook);
+        setUpdateModal(true);
+    }
+
+    function deleteBook() {
+        console.log('deleteBook', bookDetail.book_id);
+        updateShowSpinner(true);
+        const options = {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+        fetch(`${API_CONST.BOOKS}/${bookDetail.book_id}`, options).then((res) => {
+            res.json().then((data) => {
+                console.log(data);
+                if (data.code === 200) {
+                    toast.current.show(
+                        { severity: 'success', summary: 'Success', detail: data?.message, life: 5000 }
+                    );
+                    refreshList(true);
+                    closeDetails();
+                } else if (data.code === 489) {
+                    toast.current.show(
+                        { severity: 'error', summary: 'Failed', detail: data?.message, life: 5000 }
+                    );
+                } else {
+                    toast.current.show(
+                        { severity: 'error', summary: 'Failed', detail: "Error deleting the book", life: 5000 }
+                    );
+                }
+            });
+            updateShowSpinner(false);
+            updateDeleteModal(false);
+        });
+    }
+
+    const deleteFooter =
+        <div>
+            <div className={showSpinner ? "w-50" : "hidden"} >
+                <ProgressSpinner strokeWidth="5" style={{ width: '50px', height: '50px' }} />
+            </div>
+            <div className={!showSpinner ? "" : "hidden"}>
+                <Button label="Cancel" icon="pi pi-times" onClick={() => updateDeleteModal(false)} className="p-button-primary p-button-outlined" />
+                <Button label="Delete" icon="pi pi-check" onClick={() => deleteBook()} className="p-button-danger" />
+            </div>
+        </div>
 
     return (
         <div className="stick-top book-details">
+
+            <Toast ref={toast} />
             <div id="loading" style={{ display: !loading ? 'none' : 'block' }}>
                 <Spinner animation="border" role="status">
                     <span className="sr-only">Loading...</span>
@@ -52,8 +126,14 @@ const BookDetailsComponent = ({ closeDetails, bookId }) => {
             </div>
             <div id="bookDetails" className={loading ? 'hidden' : ''}>
                 <Button icon="pi pi-times"
-                    className="p-button-rounded p-button-danger p-button-outlined float-right"
+                    className="p-button-rounded p-button-primary p-button-outlined float-right"
                     onClick={() => { closeDetails() }} />
+                <Button icon="pi pi-trash"
+                    className="p-button-rounded p-button-danger p-button-outlined float-right mr-2"
+                    onClick={() => { updateDeleteModal(true) }} />
+                <Button icon="pi pi-pencil"
+                    className="p-button-rounded p-button-success p-button-outlined float-right mr-2"
+                    onClick={() => { openEditBookModal() }} />
                 <h3>{bookDetail?.title}</h3>
                 <p><strong>Written by:</strong> {bookDetail?.author}</p>
                 <Divider />
@@ -88,6 +168,20 @@ const BookDetailsComponent = ({ closeDetails, bookId }) => {
                     <p>{bookDetail?.description}</p>
                 </Fieldset>
             </div>
+            <CreateBookDialog
+                openDialog={update}
+                bookDetails={bookToEdit}
+                closeDialog={(val) => setUpdateModal(val)}
+                refresh={(val) => {
+                    if (val) {
+                        updateRefresh(!refreshPage);
+                        refreshList(true);
+                    }
+                }}
+            />
+            <Dialog header={bookDetail?.title} visible={deleteModal} style={{ width: '50vw' }} footer={deleteFooter} onHide={() => updateDeleteModal(false)}>
+                <p>Do you want to delete this book ?</p>
+            </Dialog>
         </div>
     );
 }

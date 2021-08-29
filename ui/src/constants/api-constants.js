@@ -9,6 +9,7 @@ const CATEGORY = API_PREFIX + '/categories';
 const RATINGS_BY_ID = API_PREFIX + '/ratings/[bookId]';
 const REGISTER = API_PREFIX + '/users/register';
 const LOGIN = API_PREFIX + '/users/login';
+const BOOKS = API_PREFIX + '/books';
 
 export {
     BOOK_LIST,
@@ -18,5 +19,6 @@ export {
     CATEGORY,
     RATINGS_BY_ID,
     REGISTER,
-    LOGIN
+    LOGIN,
+    BOOKS
 }
