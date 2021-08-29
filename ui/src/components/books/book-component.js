@@ -10,6 +10,7 @@ const BookComponent = () => {
 
     const [showDetails, updateBookDetailsFlag] = useState(false);
     const [selectedBook, updateSelectedBook] = useState(null);
+    const [refreshListPage, updateRefreshList] = useState(false);
 
     return (
         // <div className="container-fluid">
@@ -20,7 +21,9 @@ const BookComponent = () => {
 
                     <BookListComponent
                         openDetails={(val) => { updateBookDetailsFlag(true); updateSelectedBook(val) }}
-                        showDetails={showDetails}></BookListComponent>
+                        showDetails={showDetails}
+                        refreshListPage={refreshListPage}
+                    ></BookListComponent>
                     <ScrollTop target="parent" threshold={100} className="custom-scrolltop" icon="pi pi-arrow-up" />
 
                 </ScrollPanel>
@@ -29,7 +32,15 @@ const BookComponent = () => {
             <Col xs={12} md={8} style={{ display: showDetails ? '' : 'none' }}>
                 <ScrollPanel style={{ width: '100%', height: 'calc(100vh - 90px)' }} className="custombar1">
 
-                    <BookDetailsComponent closeDetails={() => { updateBookDetailsFlag(false) }} bookId={selectedBook} ></BookDetailsComponent>
+                    <BookDetailsComponent
+                        closeDetails={() => { updateBookDetailsFlag(false) }}
+                        bookId={selectedBook}
+                        refreshList={(val) => {
+                            if (val) {
+                                updateRefreshList(!refreshListPage)
+                            }
+                        }}
+                    ></BookDetailsComponent>
                     <ScrollTop target="parent" threshold={100} className="custom-scrolltop" icon="pi pi-arrow-up" />
 
                 </ScrollPanel>

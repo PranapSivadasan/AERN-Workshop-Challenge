@@ -11,6 +11,10 @@ const SORT_COLUMNS = [
     {
         key: 'ratings',
         label: 'Ratings'
+    },
+    {
+        key: 'title',
+        label: 'Title'
     }
 ];
 const SORT_ORDER = [
