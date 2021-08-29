@@ -211,7 +211,7 @@ const CreateBookDialog = ({ openDialog, bookDetails, closeDialog, refresh }) => 
     return (
         <div>
             <Toast ref={toast} />
-            <Dialog header="Add a new book" visible={displayDialog} style={{ width: '75vw' }} footer={footer} onHide={() => closeCreateBookDialog()}>
+            <Dialog header={bookDetails == null ? "Add a new book" : `Edit book - ${bookPayload.title}`} visible={displayDialog} style={{ width: '75vw' }} footer={footer} onHide={() => closeCreateBookDialog()}>
                 <Row>
                     <Col>
                         <div id="title" className="filter-div">
@@ -434,6 +434,7 @@ const CreateBookDialog = ({ openDialog, bookDetails, closeDialog, refresh }) => 
                             <InputTextarea value={bookPayload.description}
                                 style={{ width: '100%' }}
                                 rows={5}
+                                placeholder="Use backslash to escape the single quotes."
                                 onChange={(e) => {
                                     updateBookPayload({
                                         book_id: bookPayload.book_id,

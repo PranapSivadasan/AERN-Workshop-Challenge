@@ -12,7 +12,7 @@ import { Toast } from 'primereact/toast';
 
 import CreateBookDialog from './create-book-dialog';
 
-const BookDetailsComponent = ({ closeDetails, bookId, refreshList }) => {
+const BookDetailsComponent = ({ closeDetails, bookId, refreshList, userDetail }) => {
 
     const toast = useRef(null);
 
@@ -129,10 +129,10 @@ const BookDetailsComponent = ({ closeDetails, bookId, refreshList }) => {
                     className="p-button-rounded p-button-primary p-button-outlined float-right"
                     onClick={() => { closeDetails() }} />
                 <Button icon="pi pi-trash"
-                    className="p-button-rounded p-button-danger p-button-outlined float-right mr-2"
+                    className={userDetail?.admin ? "p-button-rounded p-button-danger p-button-outlined float-right mr-2" : "hidden"}
                     onClick={() => { updateDeleteModal(true) }} />
                 <Button icon="pi pi-pencil"
-                    className="p-button-rounded p-button-success p-button-outlined float-right mr-2"
+                    className={userDetail?.admin ? "p-button-rounded p-button-success p-button-outlined float-right mr-2" : "hidden"}
                     onClick={() => { openEditBookModal() }} />
                 <h3>{bookDetail?.title}</h3>
                 <p><strong>Written by:</strong> {bookDetail?.author}</p>

@@ -2,15 +2,26 @@ import React from 'react';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap'
 import { useHistory } from 'react-router';
 import { useState, useRef, useEffect } from 'react';
-import { Toast } from 'primereact/toast';
 
-const NavbarComponent = () => {
+import { Toast } from 'primereact/toast';
+import { Button } from 'primereact/button';
+
+import * as API_CONST from '../constants/api-constants';
+const NavbarComponent = ({ user, userDetails, logOut }) => {
 
     const toast = useRef(null);
-    useEffect( () => {
-        toast.current.show({severity:'success', summary: 'Login Success', life: 5000})
-    }, [] );
+    const [userDetail, updateUserDetail] = useState(null);
 
+    useEffect(() => {
+        async function init() {
+            const endPoint = API_CONST.USER_DETAILS.replace('[user]', user);
+            const userResponse = await (await fetch(endPoint)).json();
+            updateUserDetail(userResponse);
+            userDetails(userResponse);
+            toast.current.show({ severity: 'success', summary: `Welcome ${userResponse?.name}`, life: 5000 })
+        }
+        init();
+    }, [user]);
     const history = useHistory();
     const [dashActive, dashClicked] = useState(checkDashActive());
     const [booksActive, booksClicked] = useState(checkBookActive());
@@ -31,7 +42,7 @@ const NavbarComponent = () => {
 
     return (
         <div id="navigationBar" className='navigation-bar header'>
-            <Toast ref={toast}/>
+            <Toast ref={toast} />
             <Navbar bg="light" expand="sm" variant="light">
                 <Navbar.Brand>
                     <img
@@ -43,27 +54,36 @@ const NavbarComponent = () => {
                     />{' '}
                     <strong>Night Owl</strong>
                 </Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
                         <Nav.Link
-                            onClick={() => { navigate('/dashboard');}}
+                            onClick={() => { navigate('/dashboard'); }}
                             className={dashActive ? "active" : ""}>
                             Dashboard</Nav.Link>
                         <Nav.Link
-                            onClick={() => { navigate('/books');}}
+                            onClick={() => { navigate('/books'); }}
                             className={booksActive ? "active" : ""}>
                             Books
                         </Nav.Link>
-                        {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                            <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-                        </NavDropdown> */}
                     </Nav>
                 </Navbar.Collapse>
+                <Navbar.Text>
+                    {userDetail?.name}
+                    <Button icon="pi pi-sign-out" 
+                    title ="Logout"
+                    className="p-button-rounded p-button-text p-button-plain ml-2"
+                    style={{height: '20px', width: '30px'}} 
+                    onClick={() => { history.push('/'); logOut(true); }} />
+                    {/* <Button icon="pi pi-sign-out" className="p-button-outlined p-button-secondary" /> */}
+                </Navbar.Text>
+                {/* <NavDropdown title={userDetail?.name} id="basic-nav-dropdown">
+                    <NavDropdown.Item>Logout</NavDropdown.Item>
+                    <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
+                    <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
+                </NavDropdown> */}
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
             </Navbar>
         </div>
     );

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, useHistory } from 'react-router-dom';
 import BookComponent from './books/book-component';
 import BookDetailsComponent from './books/book-details-component';
 import BookListComponent from './books/book-list-component';
@@ -13,22 +13,28 @@ import NavbarComponent from './navbar-component';
 
 const AppComponent = () => {
 
-
+    const history = useHistory();
     const [loginSuccess, updateLoginStatus] = useState(false);
+    const [loggedInUser, updateLoginUser] = useState('Guest');
+    const [userDetail, updateUserDetail] = useState(null);
 
     let render;
-    const loginPage = <LoginPage changeLogin = {(val) => updateLoginStatus(val)} />;
+    const loginPage = <LoginPage changeLogin = {(val) => {
+        updateLoginUser(val);
+        // history.push('/dashboard');
+        updateLoginStatus(true);
+    }} />;
     const mainPage = <div className="page-grid">
         {/* <HeaderComponent></HeaderComponent> */}
-        <NavbarComponent></NavbarComponent>
+        <NavbarComponent user={loggedInUser} userDetails={(val) => {updateUserDetail(val)}} logOut={(val) => updateLoginStatus(!val)}></NavbarComponent>
         <div className="container-fluid">
             {/* <Container> */}
             <Switch>
                 <Route exact path='/dashboard'>
-                    <DashboardComponent></DashboardComponent>
+                    <DashboardComponent ></DashboardComponent>
                 </Route>
                 <Route exact path='/books'>
-                    <BookComponent></BookComponent>
+                    <BookComponent userDetail={userDetail}></BookComponent>
                     {/* <Row>
                     <Col>
                         <BookListComponent openDetails={(val) => {showBookDetails(val)}}></BookListComponent>
@@ -40,6 +46,9 @@ const AppComponent = () => {
                 </Route>
                 {/* <Route exact path='/books/:bookId'> */}
                 {/* </Route> */}
+                {/* <Route exact path='/'>
+                    {logOut()}
+                </Route> */}
             </Switch>
             {/* </Container> */}
         </div>
@@ -51,6 +60,13 @@ const AppComponent = () => {
     } else {
         render = loginPage;
     }
+
+    // function logOut() {
+    //     if (loginSuccess) {
+    //         updateLoginStatus(false);
+    //     }
+    // }
+
     return (    
         render
     );

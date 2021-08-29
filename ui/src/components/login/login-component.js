@@ -41,7 +41,7 @@ const LogInComponent = ({ updateLogin }) => {
                 if (data?.code === 200) {
                     history.push('/dashboard');
                     updateHideSubmit(false);
-                    updateLogin(true);
+                    updateLogin(payload.user);
                 } else {
                     toast.current.show(
                         { severity: 'error', summary: 'Login Failed', detail: data?.message, life: 5000 }

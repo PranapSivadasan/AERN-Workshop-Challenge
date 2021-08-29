@@ -6,7 +6,7 @@ import { Divider } from 'primereact/divider';
 import { ScrollPanel } from 'primereact/scrollpanel';
 import { ScrollTop } from 'primereact/scrolltop';
 
-const BookComponent = () => {
+const BookComponent = ({userDetail}) => {
 
     const [showDetails, updateBookDetailsFlag] = useState(false);
     const [selectedBook, updateSelectedBook] = useState(null);
@@ -23,6 +23,7 @@ const BookComponent = () => {
                         openDetails={(val) => { updateBookDetailsFlag(true); updateSelectedBook(val) }}
                         showDetails={showDetails}
                         refreshListPage={refreshListPage}
+                        userDetail={userDetail}
                     ></BookListComponent>
                     <ScrollTop target="parent" threshold={100} className="custom-scrolltop" icon="pi pi-arrow-up" />
 
@@ -35,6 +36,7 @@ const BookComponent = () => {
                     <BookDetailsComponent
                         closeDetails={() => { updateBookDetailsFlag(false) }}
                         bookId={selectedBook}
+                        userDetail={userDetail}
                         refreshList={(val) => {
                             if (val) {
                                 updateRefreshList(!refreshListPage)
