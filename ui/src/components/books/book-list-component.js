@@ -15,7 +15,7 @@ import * as COMMON_CONST from '../../constants/common-constants';
 
 import CreateBookDialog from './create-book-dialog';
 
-const BookListComponent = ({ openDetails, showDetails, refreshListPage }) => {
+const BookListComponent = ({ openDetails, showDetails, refreshListPage, userDetail }) => {
 
     const filterList = COMMON_CONST.FILTER_LIST;
     const sortOrderOptions = COMMON_CONST.SORT_ORDER;
@@ -304,7 +304,7 @@ const BookListComponent = ({ openDetails, showDetails, refreshListPage }) => {
                         className="p-button-rounded p-button-primary p-button-outlined ml-2"
                         onClick={() => { updateSortModal(true) }} />
                     <Button icon="pi pi-plus" title="Add new book"
-                        className="p-button-rounded p-button-success p-button-outlined ml-2"
+                        className={userDetail?.admin ? "p-button-rounded p-button-success p-button-outlined ml-2" : "hidden"}
                         onClick={() => { updateCreateModal(true) }} />
                     <div id="appliedFiltersDiv" className={isFilterApplied() ? 'mt-2' : 'hidden'}>
                         Applied Filters :
