@@ -14,6 +14,10 @@ var validSortColumns = [
     {
         key: 'ratings',
         value: 'ratings'
+    },
+    {
+        key: 'title',
+        value: 'title'
     }
 ];
 
@@ -131,8 +135,8 @@ const createBook = (req, res) => {
                 // console.log(response.data);
                 return res.status(489).json({ code: 489, message: "Book with the same title already exist." });
             } else {
-                const createQuery = `INSERT INTO ${table} (title, website, pages, description, cover, category_id, author) 
-                values ('${req.body.title}', '${req.body.website}', ${req.body.pages}, '${req.body.description}', '${req.body.cover}', '${req.body.cat_id}', '${req.body.author}')`;
+                const createQuery = `INSERT INTO ${table} (title, website, pages, description, cover, category_id, author, ratings) 
+                values ('${req.body.title}', '${req.body.website}', ${req.body.pages}, '${req.body.description}', '${req.body.cover}', '${req.body.cat_id}', '${req.body.author}', '${req.body.ratings}')`;
                 console.log(createQuery);
                 dbClient.query(createQuery,
                     (error, response) => {
@@ -162,7 +166,7 @@ const updateBook = (req, res) => {
                 // console.log(response.data);
                 return res.status(489).json({ code: 489, message: "Provide a valid book id." });
             } else {
-                const updateQuery = `UPDATE ${table} SET title = '${req.body.title}' , website = '${req.body.website}', pages = ${req.body.pages}, description = '${req.body.description}', cover = '${req.body.cover}', category_id = '${req.body.cat_id}', author = '${req.body.author}' WHERE book_id = '${req.body.book_id}'`;
+                const updateQuery = `UPDATE ${table} SET title = '${req.body.title}' , website = '${req.body.website}', pages = ${req.body.pages}, description = '${req.body.description}', cover = '${req.body.cover}', category_id = '${req.body.cat_id}', author = '${req.body.author}', ratings = '${req.body.ratings}' WHERE book_id = '${req.body.book_id}'`;
                 console.log(updateQuery);
                 dbClient.query(updateQuery,
                     (error, response) => {
