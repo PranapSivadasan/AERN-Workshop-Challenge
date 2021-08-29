@@ -13,4 +13,13 @@ bookRouter.get('/details/:bookId', bookController.getBookDetailsById);
 // Endpoint = '/api/books/authors'
 bookRouter.get('/authors', bookController.getAuthors);
 
+// Endpoint = POST '/api/books/
+bookRouter.post('/', bookController.createBook);
+
+// Endpoint = PUT '/api/books/
+bookRouter.put('/', bookController.updateBook);
+
+// Endpoint = DELETE '/api/books/:bookId
+bookRouter.delete('/:bookId', bookController.deleteBook);
+
 module.exports = bookRouter;
