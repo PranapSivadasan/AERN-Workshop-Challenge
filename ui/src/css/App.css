@@ -35,48 +35,6 @@ body {
   position: relative;
 }
 
-.card-container {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  justify-content: center;
-  grid-gap: 1rem;
-  margin: 1rem auto;
-}
-
-.card-image {
-  height: 14rem;
-  width: auto !important;
-  max-width: 90% !important;
-  align-self: center;
-}
-
-.card {
-  cursor: pointer !important;
-  transition: all 0.75s ease-in-out !important;
-}
-
-.card:hover {
-  transform: rotateY(180deg) scale(1.05) !important;
-}
-
-.card:hover .card-image, .card:hover .card-footer, .card:hover .card-body.content1 {
-  display: none !important;
-}
-
-.card:hover .card-body.card-desc {
-  display: block !important;
-}
-
-.card-desc {
-  font-size: 0.75rem;
-  transform: rotateY(180deg);
-}
-
-.card-body, .card-footer {
-  padding: 0.75rem !important;
-}
-
 .hidden {
   display: none !important;
 }
@@ -121,6 +79,10 @@ body {
   color: var(--primary-color-text);
 }
 
+.p-scrollpanel .p-scrollpanel-bar {
+  background: rgb(202 213 224) !important;
+}
+
 .p-component {
   font-family: 'Oswald' !important;
 }
@@ -160,4 +122,21 @@ body {
 
 .p-toast-top-right {
   top: 70px !important
+}
+
+.night-owl-img {
+  height: 40px;
+  width: 40px;
+  background-color: white;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  mask-image: url("../logo.svg");
+}
+
+.bg-custom {
+  background-color: rgb(202 213 224);
 }

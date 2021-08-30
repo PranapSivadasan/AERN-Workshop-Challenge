@@ -13,7 +13,7 @@
     font-weight: var(--fw-light);
     position: relative;
     bottom: 0;
-    background-color: var(--color-neutral-20);
+    background-color: rgb(202 213 224);
     width: -webkit-fill-available;
     width: -moz-available;
     height: 30px;

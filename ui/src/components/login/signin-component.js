@@ -93,7 +93,7 @@ const SignInComponent = () => {
                 <div id="passwordDiv" className="mb-2">
                     <label htmlFor="passwordInput" className="d-block">Password *</label>
                     <Password id="passwordInput" value={password.value}
-                        onChange={(e) => updatePassword({ value: e.target.value, modified: true })} toggleMask
+                        onChange={(e) => updatePassword({ value: e.target.value, modified: true })} 
                         feedback={false} className={password.modified && validate('password') ? "p-invalid w-75" : "w-75"} />
                     <small id="emailInvalid" className={password.modified && validate('password') ? "p-error d-block" : "hidden"}>Password is required.</small>
                 </div>

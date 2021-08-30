@@ -66,7 +66,7 @@ const LogInComponent = ({ updateLogin }) => {
                 <div id="passwordDiv" className="mb-2">
                     <label htmlFor="passwordInput" className="d-block">Password *</label>
                     <Password id="passwordInput" value={password} className="w-75"
-                        onChange={(e) => updatePassword(e.target.value)} toggleMask
+                        onChange={(e) => updatePassword(e.target.value)}
                         feedback={false} />
                 </div>
                 <div id="submitDiv">

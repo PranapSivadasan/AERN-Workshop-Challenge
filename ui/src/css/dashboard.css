@@ -1,0 +1,23 @@
+.p-card .p-card-content {
+    padding: 0 !important;
+}
+
+.dataTable .p-card-body {
+    padding-top: 0px !important;
+}
+
+.data2.p-datatable .p-datatable-tbody > tr {
+    background-color: #f9f9d7 !important;
+}
+
+.data2.p-datatable .p-datatable-thead > tr > th, .data2.p-datatable .p-datatable-scrollable-header {
+    background-color: #ecedbf !important;
+}
+
+.data1.p-datatable .p-datatable-tbody > tr {
+    background-color: #f5e5dc !important;
+}
+
+.data1.p-datatable .p-datatable-thead > tr > th, .data1.p-datatable .p-datatable-scrollable-header {
+    background-color: #f5dbc98c !important;
+}
