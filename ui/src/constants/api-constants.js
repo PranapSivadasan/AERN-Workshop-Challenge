@@ -11,6 +11,7 @@ const REGISTER = API_PREFIX + '/users/register';
 const LOGIN = API_PREFIX + '/users/login';
 const BOOKS = API_PREFIX + '/books';
 const USER_DETAILS = API_PREFIX + '/users/[user]';
+const BOOK_COUNT_BY_CATEGORY = API_PREFIX + '/categories/count/books';
 
 export {
     BOOK_LIST,
@@ -22,5 +23,6 @@ export {
     REGISTER,
     LOGIN,
     BOOKS,
-    USER_DETAILS
+    USER_DETAILS,
+    BOOK_COUNT_BY_CATEGORY
 }
