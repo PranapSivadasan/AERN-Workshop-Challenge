@@ -77,8 +77,23 @@ const verifyUser = (req, res) => {
         })
 }
 
+const getUserCount = (req, res) => {
+    const query = `SELECT count(*) as totalUsers FROM ${table}`;
+    dbClient.query(query,
+        (error, response) => {
+            if (error) {
+                return res.status(489).json(error);
+            }
+            if (response.data.length === 0) {
+                return res.status(489).json({ code: 489, message: "User not found!" })
+            }
+            return res.status(200).json(response.data[0]);
+        });
+}
+
 module.exports = {
     getUserDetails,
     createUser,
-    verifyUser
+    verifyUser,
+    getUserCount
 }

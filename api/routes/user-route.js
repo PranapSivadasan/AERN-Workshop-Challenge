@@ -14,4 +14,6 @@ userRouter.post('/register', userController.createUser);
 // Endpoint = GET '/api/users/login'
 userRouter.post('/login', userController.verifyUser);
 
+userRouter.get('/total/count', userController.getUserCount);
+
 module.exports = userRouter;
