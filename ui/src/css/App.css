@@ -87,7 +87,6 @@ body {
 }
 
 .book-details {
-  /* background-color: var(--color-neutral-20); */
   margin: 1rem 0;
   padding: 0.25rem 0.75rem;
 }
@@ -104,11 +103,6 @@ body {
     display: none !important;
   }
 }
-
-/* .deatils-column {
-  border: 1px solid;
-  margin: 1rem;
-} */
 
 /* ScrollTopDemo.css */
 

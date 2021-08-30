@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import * as API_CONST from '../../constants/api-constants';
 
 import { InputText } from 'primereact/inputtext';
@@ -31,20 +31,18 @@ const SignInComponent = () => {
                 'Content-Type': 'application/json'
             }
         }
-        // console.log(options);
         const fetchPromise = fetch(API_CONST.REGISTER, options);
         fetchPromise.then((res) => {
             res.json().then((data) => {
-                console.log(data);
                 if (data.code === 489) {
                     toast.current.show(
-                    { severity: 'error', summary: 'Registration Failed', detail: data?.message, life: 5000 }
+                        { severity: 'error', summary: 'Registration Failed', detail: data?.message, life: 5000 }
                     );
                 }
                 if (data.code === 200) {
                     toast.current.show(
                         { severity: 'success', summary: 'Successfully Registered', detail: data?.message, life: 5000 }
-                        );
+                    );
                 }
                 resetForm();
                 updateHideSubmit(false);
@@ -61,12 +59,12 @@ const SignInComponent = () => {
     function validate(field) {
         switch (field) {
             case 'userName':
-                return userName.value == '';
+                return userName.value === '';
             case 'email':
                 const emailRegex = new RegExp(/[a-zA-Z0-9.]+@[a-zA-Z]+\.[a-zA-Z]+/);
                 return !emailRegex.test(email.value);
             case 'password':
-                return password.value == '';
+                return password.value === '';
         }
     }
 

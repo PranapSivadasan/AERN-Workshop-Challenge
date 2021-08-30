@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useHistory } from 'react-router';
 import * as API_CONST from '../../constants/api-constants';
 
@@ -20,7 +20,6 @@ const LogInComponent = ({ updateLogin }) => {
 
     function logIn(event) {
         event.preventDefault();
-        console.log(user, password);
         updateHideSubmit(true);
         const payload = {
             user: user,
@@ -33,11 +32,9 @@ const LogInComponent = ({ updateLogin }) => {
                 'Content-Type': 'application/json'
             }
         }
-        // console.log(options);
         const fetchPromise = fetch(API_CONST.LOGIN, options);
         fetchPromise.then((res) => {
             res.json().then((data) => {
-                console.log(data);
                 if (data?.code === 200) {
                     history.push('/dashboard');
                     updateHideSubmit(false);
@@ -54,7 +51,7 @@ const LogInComponent = ({ updateLogin }) => {
     }
 
     function isFormInValid() {
-        return user == '' || password == '';
+        return user === '' || password === '';
     }
 
     return (

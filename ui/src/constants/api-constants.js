@@ -1,5 +1,4 @@
 const API_HOST = 'https://project-night-owl.herokuapp.com';
-// const API_HOST = 'http://localhost:8000';
 const API_PREFIX = API_HOST + '/api';
 const BOOK_LIST = API_PREFIX + '/books/title-[bookTitle]/category-[categoryId]/author-[authorName]/sortBy-[columnName]-[sortOrder]';
 const BOOK_DETAILS = API_PREFIX + '/books/details/[bookId]';

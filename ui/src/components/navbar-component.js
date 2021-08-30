@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, Nav, NavDropdown } from 'react-bootstrap'
+import { Navbar, Nav } from 'react-bootstrap'
 import { useHistory } from 'react-router';
 import { useState, useRef, useEffect } from 'react';
 
@@ -69,20 +69,12 @@ const NavbarComponent = ({ user, userDetails, logOut }) => {
                 </Navbar.Collapse>
                 <Navbar.Text>
                     {userDetail?.name}
-                    <Button icon="pi pi-sign-out" 
-                    title ="Logout"
-                    className="p-button-rounded p-button-text p-button-plain ml-2"
-                    style={{height: '20px', width: '30px'}} 
-                    onClick={() => { history.push('/'); logOut(true); }} />
-                    {/* <Button icon="pi pi-sign-out" className="p-button-outlined p-button-secondary" /> */}
+                    <Button icon="pi pi-sign-out"
+                        title="Logout"
+                        className="p-button-rounded p-button-text p-button-plain ml-2"
+                        style={{ height: '20px', width: '30px' }}
+                        onClick={() => { history.push('/'); logOut(true); }} />
                 </Navbar.Text>
-                {/* <NavDropdown title={userDetail?.name} id="basic-nav-dropdown">
-                    <NavDropdown.Item>Logout</NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                    <NavDropdown.Divider />
-                    <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-                </NavDropdown> */}
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
             </Navbar>
         </div>

@@ -2,18 +2,16 @@ import React, { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import BookDetailsComponent from './book-details-component';
 import BookListComponent from './book-list-component';
-import { Divider } from 'primereact/divider';
 import { ScrollPanel } from 'primereact/scrollpanel';
 import { ScrollTop } from 'primereact/scrolltop';
 
-const BookComponent = ({userDetail}) => {
+const BookComponent = ({ userDetail }) => {
 
     const [showDetails, updateBookDetailsFlag] = useState(false);
     const [selectedBook, updateSelectedBook] = useState(null);
     const [refreshListPage, updateRefreshList] = useState(false);
 
     return (
-        // <div className="container-fluid">
 
         <Row>
             <Col xs={12} md={showDetails ? 4 : 12}>
