@@ -256,13 +256,13 @@ const CreateBookDialog = ({ openDialog, bookDetails, closeDialog, refresh }) => 
                                 }}
                                 className="filter-dropdown"
                                 showClear
-                                style={{ width: '80%' }}
+                                style={{ width: '100%' }}
                                 optionLabel="label"
                                 optionValue="key"
                                 placeholder="Select a category" />
-                            <Button icon="pi pi-plus" title="Add new category"
+                            {/* <Button icon="pi pi-plus" title="Add new category"
                                 className="p-button-rounded p-button-primary p-button-outlined ml-2 mt-2"
-                                onClick={() => { setDisplayCategory(true) }} />
+                                onClick={() => { setDisplayCategory(true) }} /> */}
                         </div>
                     </Col>
                     <Col sm={12} md={6}>
