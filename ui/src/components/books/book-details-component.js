@@ -136,7 +136,7 @@ const BookDetailsComponent = ({ closeDetails, bookId, refreshList, userDetail })
                         </div>
                         <div id="ratingsDiv" className="mb-3">
                             <h6>Ratings : {bookDetail?.ratings != null ? bookDetail?.ratings : 'No ratings'} / 5</h6>
-                            <Rating value={bookDetail?.ratings} stars={5} cancel={false} />
+                            <Rating value={bookDetail?.ratings} stars={5} cancel={false} disabled/>
                         </div>
                         <div id="pagesDiv" className="mb-3">
                             <h6>Number of pages:</h6>

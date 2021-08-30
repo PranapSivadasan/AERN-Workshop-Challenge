@@ -9,6 +9,7 @@ import { Dialog } from 'primereact/dialog';
 import { Dropdown } from 'primereact/dropdown';
 import { Message } from 'primereact/message';
 import { SelectButton } from 'primereact/selectbutton';
+import { Rating } from 'primereact/rating';
 
 import * as API_CONST from '../../constants/api-constants';
 import * as COMMON_CONST from '../../constants/common-constants';
@@ -169,7 +170,7 @@ const BookListComponent = ({ openDetails, showDetails, refreshListPage, userDeta
                         return (
                             <Card id={`card-${index + 1}`}
                                 key={`card-${index + 1}`}
-                                style={{ width: '15rem', height: '28rem' }}
+                                style={{ width: '11rem', height: '17rem' }}
                                 bg="light" text="dark"
                                 onClick={() => {
                                     openDetails(value.book_id);
@@ -178,19 +179,20 @@ const BookListComponent = ({ openDetails, showDetails, refreshListPage, userDeta
                                     variant="bottom"
                                     src={value.cover}
                                     className="card-image" />
-                                <Card.Body className="content1">
+                                <Card.Body className="card-body-1">
                                     <Card.Title>{value.title}</Card.Title>
                                     <Card.Text>
                                         by {value.author}
                                     </Card.Text>
-                                </Card.Body>
-                                <Card.Body className="hidden card-desc">
-                                    <Card.Title>{value.title}</Card.Title>
-                                    <Card.Text>
+                                    <Card.Text className="card-desc text-muted">
                                         {value.description}
                                     </Card.Text>
+                                    <Card.Text>
+                                        <div style={{position: 'absolute', bottom: '10px'}}>
+                                            <Rating value={value?.ratings} stars={5} cancel={false} disabled />
+                                        </div>
+                                    </Card.Text>
                                 </Card.Body>
-                                <Card.Footer className="text-muted">Ratings: {value.ratings != null ? value.ratings : 'No ratings'} / 5</Card.Footer>
                             </Card>
                         )
                     })

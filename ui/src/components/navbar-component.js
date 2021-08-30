@@ -43,7 +43,7 @@ const NavbarComponent = ({ user, userDetails, logOut }) => {
     return (
         <div id="navigationBar" className='navigation-bar header'>
             <Toast ref={toast} />
-            <Navbar bg="light" expand="sm" variant="light">
+            <Navbar bg="custom" expand="sm" variant="light">
                 <Navbar.Brand>
                     <img
                         alt=""
@@ -71,7 +71,7 @@ const NavbarComponent = ({ user, userDetails, logOut }) => {
                     {userDetail?.name}
                     <Button icon="pi pi-sign-out"
                         title="Logout"
-                        className="p-button-rounded p-button-text p-button-plain ml-2"
+                        className="p-button-rounded p-button-text p-button-danger p-button-lg ml-2"
                         style={{ height: '20px', width: '30px' }}
                         onClick={() => { history.push('/'); logOut(true); }} />
                 </Navbar.Text>

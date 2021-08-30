@@ -18,7 +18,7 @@ const LoginPage = ({ changeLogin }) => {
                             src="night-owl.svg"
                             height="35"
                         />
-                        <span className="ml-3">Welcome to Night Owl</span>
+                        <span className="ml-3">Welcome to Night Owl Book Hub</span>
                     </div>
                     <TabView>
                         <TabPanel header="Login">

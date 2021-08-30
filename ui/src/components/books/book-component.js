@@ -5,6 +5,8 @@ import BookListComponent from './book-list-component';
 import { ScrollPanel } from 'primereact/scrollpanel';
 import { ScrollTop } from 'primereact/scrolltop';
 
+import '../../css/books.css'
+
 const BookComponent = ({ userDetail }) => {
 
     const [showDetails, updateBookDetailsFlag] = useState(false);
