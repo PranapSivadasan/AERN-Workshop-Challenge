@@ -2,7 +2,7 @@ function validateSortOrder(order) {
     if (isEmpty(order)) {
         return 'DESC';
     }
-    if((order).toLowerCase().trim() === 'asc') {
+    if ((order).toLowerCase().trim() === 'asc') {
         return 'ASC';;
     } else if ((order).toLowerCase().trim() === 'desc') {
         return 'DESC';

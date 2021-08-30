@@ -1,3 +1,7 @@
+/**
+ * App Routes - Base file to route the calls to appropriate files 
+ */
+
 const bookRouter = require('./book-route');
 const categoryRouter = require('./category-route');
 const ratingRouter = require('./rating-route');

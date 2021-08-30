@@ -1,11 +1,16 @@
+/**
+ * Ratings controller - It consist of all the API related to ratings table.
+ */
+
 const dbClient = require('../configuration/db-config');
-const common = require('../services/common-service');
 
 const tableName = 'ratings';
 const table = `${process.env.SCHEMA}.${tableName}`;
 
+/**
+ * API to get all the ratings group by books
+ */
 const getRatings = (req, res) => {
-    console.log('getRatings');
     dbClient.query(`SELECT ${tableName}.book_id, AVG(${tableName}.rating) as rating from ${table} GROUP BY ${tableName}.book_id`,
         (error, response) => {
             if (error) {
@@ -15,8 +20,10 @@ const getRatings = (req, res) => {
         });
 }
 
+/**
+ * API to get the ratings based on book id
+ */
 const getRatingsById = (req, res) => {
-    console.log('getRatingsById');
     dbClient.query(`SELECT * from ${table} WHERE book_id = '${req.params.bookId}'`,
         (error, response) => {
             if (error) {
@@ -26,8 +33,10 @@ const getRatingsById = (req, res) => {
         });
 }
 
+/**
+ * API to rate a book
+ */
 const postRating = (req, res) => {
-    console.log('postRating');
     const recAlreadyExist = `SELECT rating from ${table} WHERE book_id='${req.body.book_id}' AND user_id='${req.body.user_id}'`;
     const insertQuery = `INSERT INTO ${table} (book_id, rating, user_id) VALUES('${req.body.book_id}', ${req.body.rating}, '${req.body.user_id}' )`;
     const upadteQuery = `UPDATE ${table} SET rating=${req.body.rating} WHERE book_id='${req.body.book_id}' AND user_id='${req.body.user_id}'`;
@@ -35,11 +44,9 @@ const postRating = (req, res) => {
     dbClient.query(recAlreadyExist,
         (error, response) => {
             if (error) {
-                // console.log(error);
                 return res.status(489).json(error);
             }
             if (response.data.length > 0) {
-                // console.log(response.data, '\n', upadteQuery);
                 dbClient.query(upadteQuery,
                     (updateError, updateResponse) => {
                         if (updateError) {
@@ -51,7 +58,6 @@ const postRating = (req, res) => {
                         });
                     });
             } else {
-                // console.log(response.data, '\n', insertQuery);
                 dbClient.query(insertQuery,
                     (insertError, insertResponse) => {
                         if (insertError) {
