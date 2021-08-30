@@ -25,7 +25,20 @@ const getCategoryById = (req, res) => {
     })
 }
 
+const getCatBookCount = (req, res) => {
+    console.log('getCatGroup');
+    const query = `select categories.name, count(categories.name) as bookCount FROM book_details.books INNER JOIN book_details.categories ON categories.cat_id = books.category_id GROUP BY categories.name`;
+    dbClient.query(query, 
+        (error, response) => {
+            if (error) {
+                return res.status(489).json(error);
+            }
+            return res.status(200).json(response.data);
+        })
+}
+
 module.exports = {
     getCategories,
-    getCategoryById
+    getCategoryById,
+    getCatBookCount
 }
