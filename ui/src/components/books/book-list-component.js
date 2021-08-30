@@ -32,7 +32,6 @@ const BookListComponent = ({ openDetails, showDetails, refreshListPage, userDeta
     const [authChipVal, updateAuthChipVal] = useState(false);
     const [applyFilter, updateApplyFilter] = useState(filterList);
     const [hideSearchDiv, updateSearchDiv] = useState(showDetails);
-    // const [categoryList, updateCategory] = useState([]);
     const [category, setCategory] = useState(null);
     const [author, setAuthor] = useState(null);
     const [sortBy, setSortBy] = useState(COMMON_CONST.SORT_COLUMNS[0]);
@@ -54,7 +53,6 @@ const BookListComponent = ({ openDetails, showDetails, refreshListPage, userDeta
             query = query.replace('[authorName]', author !== null && author !== undefined ? author?.key : '');
             query = query.replace('[columnName]', sortBy.key);
             query = query.replace('[sortOrder]', sortOrder.key);
-            // console.log(query);
             const bookListResponse = await (await fetch(query)).json();
             updateBookListArray(bookListResponse);
             bookListLoading(false);
@@ -85,8 +83,6 @@ const BookListComponent = ({ openDetails, showDetails, refreshListPage, userDeta
                 })
             })
             updateCategoryOptions(catOpt);
-            // updateCategory(categoryListResponse);
-            // console.log(categoryList);
 
             let authorQuery = API_CONST.AUTHOR_LIST;
             const authListResponse = await (await fetch(authorQuery)).json();
@@ -98,7 +94,6 @@ const BookListComponent = ({ openDetails, showDetails, refreshListPage, userDeta
                 })
             })
             updateAuthorOptions(authOpt);
-            // updateCategory(categoryListResponse);
         }
         initCatAndAuth();
     }, [refreshPage]);
@@ -137,7 +132,7 @@ const BookListComponent = ({ openDetails, showDetails, refreshListPage, userDeta
 
     function searchBook() {
         updateSearchFlag(!searchFlag);
-        if (searchVal != '') {
+        if (searchVal !== '') {
             updateSearchChipVal(searchVal);
             applyFilter.search = true;
         }
@@ -161,9 +156,7 @@ const BookListComponent = ({ openDetails, showDetails, refreshListPage, userDeta
     }
 
     function sortBook() {
-        console.log('sortBook');
         updateSortModal(false)
-        console.log(sortBy, sortOrder);
         updateSortFlag(!sortFlag);
     }
 
@@ -180,9 +173,7 @@ const BookListComponent = ({ openDetails, showDetails, refreshListPage, userDeta
                                 bg="light" text="dark"
                                 onClick={() => {
                                     openDetails(value.book_id);
-                                    // hideSearchDiv(true);
                                 }}>
-                                {/* <Card.Header>{value.title}</Card.Header> */}
                                 <Card.Img
                                     variant="bottom"
                                     src={value.cover}

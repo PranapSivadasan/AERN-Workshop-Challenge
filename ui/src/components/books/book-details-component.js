@@ -19,7 +19,6 @@ const BookDetailsComponent = ({ closeDetails, bookId, refreshList, userDetail })
     const [bookDetail, updateBookDetail] = useState([]);
     const [loading, bookDetailsLoading] = useState(true);
     const [catDetails, updateCatDetails] = useState([]);
-    const [ratDetails, updateRatDetails] = useState([]);
     const [update, setUpdateModal] = useState(false);
     const [bookToEdit, updateBookToEdit] = useState(null);
     const [refreshPage, updateRefresh] = useState(false);
@@ -42,14 +41,8 @@ const BookDetailsComponent = ({ closeDetails, bookId, refreshList, userDetail })
                 const catDetailsResponse = await (await fetch(catQuery)).json();
                 updateCatDetails(catDetailsResponse);
 
-                let ratQuery = API_CONST.RATINGS_BY_ID;
-                ratQuery = ratQuery.replace('[bookId]', bookId);
-                const ratDetailsResponse = await (await fetch(ratQuery)).json();
-                updateRatDetails(ratDetailsResponse);
-
                 bookDetailsLoading(false);
             }
-            // console.log(bookDetail);
         }
 
         init();
@@ -72,7 +65,6 @@ const BookDetailsComponent = ({ closeDetails, bookId, refreshList, userDetail })
     }
 
     function deleteBook() {
-        console.log('deleteBook', bookDetail.book_id);
         updateShowSpinner(true);
         const options = {
             method: 'DELETE',
@@ -82,7 +74,6 @@ const BookDetailsComponent = ({ closeDetails, bookId, refreshList, userDetail })
         }
         fetch(`${API_CONST.BOOKS}/${bookDetail.book_id}`, options).then((res) => {
             res.json().then((data) => {
-                console.log(data);
                 if (data.code === 200) {
                     toast.current.show(
                         { severity: 'success', summary: 'Success', detail: data?.message, life: 5000 }

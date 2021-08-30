@@ -23,8 +23,6 @@ const DashboardComponent = () => {
                 dataSet.data.push(cat.bookCount);
             }
             updateBookCountByCat(dataSet);
-            console.log(dataSet);
-
 
             let query = API_CONST.BOOK_LIST;
             query = query.replace('[columnName]', 'ratings');
@@ -42,7 +40,6 @@ const DashboardComponent = () => {
                 dataSet2.data.push(tbook.ratings);
             }
             updateTopRatedBook(dataSet2);
-            console.log(topRatedBookRes)
         }
         init();
     }, []);

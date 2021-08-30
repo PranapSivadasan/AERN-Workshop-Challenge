@@ -6,7 +6,7 @@ import { TabView, TabPanel } from 'primereact/tabview';
 import LogInComponent from './login-component';
 import SignInComponent from './signin-component';
 
-const LoginPage = ({changeLogin}) => {
+const LoginPage = ({ changeLogin }) => {
     return (
 
         <div className="login-bg">
@@ -22,7 +22,7 @@ const LoginPage = ({changeLogin}) => {
                     </div>
                     <TabView>
                         <TabPanel header="Login">
-                            <LogInComponent updateLogin={(val) => {changeLogin(val)}}></LogInComponent>
+                            <LogInComponent updateLogin={(val) => { changeLogin(val) }}></LogInComponent>
                         </TabPanel>
                         <TabPanel header="Register">
                             <SignInComponent></SignInComponent>

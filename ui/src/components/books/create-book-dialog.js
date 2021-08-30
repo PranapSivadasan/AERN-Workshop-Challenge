@@ -7,7 +7,6 @@ import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { InputNumber } from 'primereact/inputnumber';
-import { SelectButton } from 'primereact/selectbutton';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { Toast } from 'primereact/toast';
 import { Rating } from 'primereact/rating';
@@ -21,10 +20,6 @@ const CreateBookDialog = ({ openDialog, bookDetails, closeDialog, refresh }) => 
     const toast = useRef(null);
 
     const newCatSchema = { name: '', desc: '' };
-    const authorSelOptions = [
-        { label: 'Select from existing authors', value: 1 },
-        { label: 'New author', value: 2 }
-    ];
     const newBook = {
         book_id: '',
         title: '',
@@ -38,17 +33,11 @@ const CreateBookDialog = ({ openDialog, bookDetails, closeDialog, refresh }) => 
     }
     const [bookPayload, updateBookPayload] = useState(newBook);
     const [displayDialog, setDisplayDialog] = useState(false);
-    const [category, setCategory] = useState(null);
-    const [author, setAuthor] = useState(null);
     const [categoryOptions, updateCategoryOptions] = useState([]);
-    const [authorOptions, updateAuthorOptions] = useState([]);
 
     // category dialog
     const [displayAddCategory, setDisplayCategory] = useState(false);
     const [newCategory, updateNewCategory] = useState(newCatSchema);
-    const [newCategoryName, setNewCatName] = useState('');
-    const [newCategoryDesc, setNewCatDescription] = useState('');
-    const [authorSel, updateAuthorSelection] = useState(1);
     const [showSpinner, updateShowSpinner] = useState(false);
 
     useEffect(() => {
@@ -65,16 +54,6 @@ const CreateBookDialog = ({ openDialog, bookDetails, closeDialog, refresh }) => 
                 })
                 updateCategoryOptions(catOpt);
 
-                let authorQuery = API_CONST.AUTHOR_LIST;
-                const authListResponse = await (await fetch(authorQuery)).json();
-                let authOpt = [];
-                authListResponse.authors.map((value, index) => {
-                    authOpt.push({
-                        key: value,
-                        label: value
-                    })
-                })
-                updateAuthorOptions(authOpt);
             }
         }
 
@@ -97,11 +76,8 @@ const CreateBookDialog = ({ openDialog, bookDetails, closeDialog, refresh }) => 
                 'Content-Type': 'application/json'
             }
         }
-        console.log('createBook');
-        console.log(bookPayload);
         fetch(API_CONST.BOOKS, options).then((res) => {
             res.json().then((data) => {
-                console.log(data);
                 if (data.code === 200) {
                     toast.current.show(
                         { severity: 'success', summary: 'Success', detail: data?.message, life: 5000 }
@@ -124,7 +100,6 @@ const CreateBookDialog = ({ openDialog, bookDetails, closeDialog, refresh }) => 
 
     function updateBook() {
         updateShowSpinner(true);
-        console.log('updateBook', bookPayload);
         const options = {
             method: 'PUT',
             body: JSON.stringify(bookPayload),
@@ -134,7 +109,6 @@ const CreateBookDialog = ({ openDialog, bookDetails, closeDialog, refresh }) => 
         }
         fetch(API_CONST.BOOKS, options).then((res) => {
             res.json().then((data) => {
-                console.log(data);
                 if (data.code === 200) {
                     toast.current.show(
                         { severity: 'success', summary: 'Success', detail: data?.message, life: 500000 }
@@ -260,9 +234,6 @@ const CreateBookDialog = ({ openDialog, bookDetails, closeDialog, refresh }) => 
                                 optionLabel="label"
                                 optionValue="key"
                                 placeholder="Select a category" />
-                            {/* <Button icon="pi pi-plus" title="Add new category"
-                                className="p-button-rounded p-button-primary p-button-outlined ml-2 mt-2"
-                                onClick={() => { setDisplayCategory(true) }} /> */}
                         </div>
                     </Col>
                     <Col sm={12} md={6}>
@@ -291,41 +262,7 @@ const CreateBookDialog = ({ openDialog, bookDetails, closeDialog, refresh }) => 
                         </div>
                     </Col>
                 </Row>
-                {/* <div id="author" className="filter-div mb-2">
-                    Author: */}
-                {/* <SelectButton value={authorSel}
-                        options={authorSelOptions}
-                        optionLabel="label"
-                        optionValue="value"
-                        className="mt-2"
-                        onChange={(e) => updateAuthorSelection(e.value)} /> */}
-                {/* </div> */}
                 <Row>
-                    {/* <Col sm={12} md={6}>
-                        <div id="authorSelect" className="filter-div">
-                            <Dropdown value={authorSel !== 1 ? undefined : bookPayload.author}
-                                options={authorOptions}
-                                disabled={authorSel !== 1}
-                                onChange={(type) => {
-                                    updateBookPayload({
-                                        book_id: bookPayload.book_id,
-                                        title: bookPayload.title,
-                                        website: bookPayload.website,
-                                        pages: bookPayload.pages,
-                                        description: bookPayload.description,
-                                        cover: bookPayload.cover,
-                                        cat_id: bookPayload.cat_id,
-                                        author: type.value
-                                    });
-                                }}
-                                className="filter-dropdown"
-                                showClear
-                                style={{ width: '100%' }}
-                                optionLabel="label"
-                                optionValue="key"
-                                placeholder="Select an author" />
-                        </div>
-                    </Col> */}
                     <Col sm={12} md={6}>
                         <div id="authorInput" className="filter-div">
                             <div className="my-2"> Authors: </div>
@@ -365,21 +302,6 @@ const CreateBookDialog = ({ openDialog, bookDetails, closeDialog, refresh }) => 
                                         ratings: e.value
                                     });
                                 }} />
-                            {/* <InputText value={bookPayload.author}
-                                style={{ width: '100%' }}
-                                placeholder="Enter author(s) as CSV"
-                                onChange={(e) => {
-                                    updateBookPayload({
-                                        book_id: bookPayload.book_id,
-                                        title: bookPayload.title,
-                                        website: bookPayload.website,
-                                        pages: bookPayload.pages,
-                                        description: bookPayload.description,
-                                        cover: bookPayload.cover,
-                                        cat_id: bookPayload.cat_id,
-                                        author: e.target.value
-                                    });
-                                }} /> */}
                         </div>
                     </Col>
                 </Row>
