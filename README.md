@@ -1,4 +1,4 @@
-# Project - Night Owl : Status - In Progress
+# Project - Night Owl : Status - Completed
 
 ## Hosted Application details
 The project is hosted using **Heroku** for the API's and **Netlify** for the UI. The host details are listed below.
@@ -73,7 +73,11 @@ The API and the UI are to be run separately .
 - The UI server is started and hosted as **http://localhost:3000**.
 - To build the UI run the command ``npm run build``
     
-    
-    
+## Enhancements
+The below are the features that can be enhanced further
+- Allow admin to create a new category.
+- Allow end users to rate a book.
+- Support pagination.
+- Enhance the dashboard.
     
     
