@@ -1,10 +1,14 @@
+/**
+ * Rating Routes - Maps the rating controller functions with proper endpoints.
+ */
+
 const ratingRouter = require('express').Router();
 const ratingController = require('../controllers/rating-controller');
 
-// Endpoint = '/api/ratings'
+// Endpoint = GET '/api/ratings'
 ratingRouter.get('/', ratingController.getRatings);
 
-// Endpoint = '/api/ratings/[bookId]'
+// Endpoint = GET '/api/ratings/[bookId]'
 ratingRouter.get('/:bookId', ratingController.getRatingsById);
 
 // Endpoint = POST '/api/ratings'

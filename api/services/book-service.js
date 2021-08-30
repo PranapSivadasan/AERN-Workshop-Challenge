@@ -2,7 +2,6 @@ const validation = require('./validation-service');
 
 
 function validateCreateBookColumns(payload) {
-    console.log('validateCreateBookColumns');
     if (validation.isEmpty(payload.title)) {
         return false;
     }
@@ -12,9 +11,6 @@ function validateCreateBookColumns(payload) {
     if (validation.isUndefinedOrNull(payload.pages)) {
         return false;
     }
-    // if (validation.isUndefinedOrNull(payload.isbn)) {
-    //     return false;
-    // }
     if (validation.isEmpty(payload.description)) {
         return false;
     }

@@ -1,11 +1,17 @@
+/**
+ * User controller - It consist of all the API related to users table.
+ */
+
 const dbClient = require('../configuration/db-config');
 const crypto = require('../services/encryption-service');
 
 const tableName = 'users';
 const table = `${process.env.SCHEMA}.${tableName}`;
 
+/**
+ * API to get a user details based on username / email
+ */
 const getUserDetails = (req, res) => {
-    console.log('getUserDetails');
     const query = `SELECT name, email_id, admin from ${table} WHERE name = '${req.params.user}' OR email_id = '${req.params.user}'`;
     dbClient.query(query,
         (error, response) => {
@@ -19,10 +25,10 @@ const getUserDetails = (req, res) => {
         });
 }
 
+/**
+ * API to create a user
+ */
 const createUser = (req, res) => {
-    console.log('createUser');
-    // console.log(req.body.password);
-    // console.log(crypto.encrypt(req.body.password), crypto.decrypt({ iv: '08d20579dfe571840c7ab70e0a4519cb', content: '8e' }));
     const checkUser = `SELECT name, email_id FROM ${table} WHERE name='${req.body.name}' OR email_id='${req.body.email_id}'`;
     dbClient.query(checkUser,
         (error, resposne) => {
@@ -35,7 +41,6 @@ const createUser = (req, res) => {
                 const encryptVal = crypto.encrypt(req.body.password);
                 const encryptedPwd = `${encryptVal.iv}:${encryptVal.content}`;
                 const createQuery = `INSERT INTO ${table} (name, email_id, password) VALUES ('${req.body.name}', '${req.body.email_id}', '${encryptedPwd}')`;
-                // console.log(createQuery);
                 dbClient.query(createQuery,
                     (error, response) => {
                         if (error) {
@@ -47,8 +52,10 @@ const createUser = (req, res) => {
         })
 }
 
+/**
+ * API to verify credentials of the logged in user
+ */
 const verifyUser = (req, res) => {
-    console.log('verifyUser');
     const checkUser = `SELECT password FROM ${table} WHERE name='${req.body.user}' OR email_id='${req.body.user}'`;
     dbClient.query(checkUser,
         (error, response) => {
@@ -60,7 +67,6 @@ const verifyUser = (req, res) => {
             } else {
                 const pwd = String(response.data[0].password).split(':');
                 const decryptPwd = crypto.decrypt({ iv: pwd[0], content: pwd[1] });
-                // console.log(decryptPwd);
                 if (decryptPwd === req.body.password) {
 
                     return res.status(200).json({ code: response.statusCode, message: 'Credentials verified!' });

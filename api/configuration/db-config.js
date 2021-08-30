@@ -1,3 +1,7 @@
+/**
+ * Configuration to connect to the hosted HARPER DB instance.
+ */
+
 const harperive = require('harperive');
 
 const DB_CONFIG = {
