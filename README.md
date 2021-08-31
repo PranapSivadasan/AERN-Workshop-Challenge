@@ -17,7 +17,11 @@ The project is hosted using **Heroku** for the API's and **Netlify** for the UI.
  The basic details of the project are as follows
   - The project view is divided into 2 personas.
     - Registered end users.
-    - Admin users.
+      - Register yourself in the site and login using the credentials.
+    - Admin users. 
+      - User Name: Administrator
+      - Email: admin@nightowl.org
+      - Password: nightowl
   - The site offers a register / sign in page where the usera can register themselves.
   - The registered users can login in to the site using the login page. 
   - **End users** will be able to perform the below actions in the site
